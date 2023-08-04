@@ -12,7 +12,7 @@ export class IncrementadorComponent implements OnInit {
   }
 
   // El padre envia este input (En este caso el input e el progress)
-  @Input('valor') progreso: number = 30;
+  @Input('valor') progreso: number = 100;
   @Input('botonClase') btnClass: string = 'btn-primary';
 
   // Para emitir algo se utiliza el decorador outPut
@@ -42,5 +42,20 @@ export class IncrementadorComponent implements OnInit {
 
     this.valorSalida.emit(this.progreso+valor);
     return this.progreso=this.progreso+valor
+  }
+
+  onChange(nuevoValor: number) {
+
+    if(nuevoValor>=100) {
+      this.valorSalida.emit(100);
+    }
+    
+    else if(nuevoValor<=0) {
+      this.valorSalida.emit(0);
+    }
+
+    else {
+      this.valorSalida.emit(nuevoValor);
+    }
   }
 }

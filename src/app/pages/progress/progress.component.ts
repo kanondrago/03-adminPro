@@ -7,8 +7,8 @@ import { Component } from '@angular/core';
 })
 export class ProgressComponent {
 
-  progreso1: number = 30;
-  progreso2: number = 30;
+  progreso1: number = 10;
+  progreso2: number = 90;
 
   btnClass1: string = 'btn-primary';
   btnClass2: string = 'btn-info';
