@@ -20,7 +20,7 @@ export class Grafica1Component {
     datasets: 
     [
       { 
-        data: [350, 450, 100],
+        data: [350, 450, 80],
         backgroundColor: ['#6857E6', '#009FEE', '#F02059'] 
       },
     ],
