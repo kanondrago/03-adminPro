@@ -12,14 +12,14 @@ export class DonaComponent {
   @Input('titulo') titulo: string = 'Sin Titulo';
 
 
-  public doughnutChartLabels: string[] = ['Download Sales', 'In-Store Sales','Mail-Order Sales',];
-  public doughnutChartData: ChartData<'doughnut'> = 
+  public doughnutChartLabels: string[] = ['SinEtiqueta1', 'SinEtiqueta2','SinEtiqueta3',];
+  @Input('doughnutChartData') doughnutChartData: ChartData<'doughnut'> = 
   {
     labels: this.doughnutChartLabels,
     datasets: 
     [
       { 
-        data: [350, 450, 100],
+        data: [30, 30, 30],
         backgroundColor: ['#6857E6', '#009FEE', '#F02059'] 
       },
     ],
