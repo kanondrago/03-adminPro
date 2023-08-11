@@ -13,6 +13,7 @@ export class AccountSettingsComponent implements OnInit{
   }
 
   constructor() {
+
   }
 
   // Salto al DOM // No olvidar el tipado muy IMPORTANTE 
