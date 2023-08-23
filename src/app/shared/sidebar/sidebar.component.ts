@@ -14,9 +14,9 @@ export class SidebarComponent {
 
   constructor( private sideBar: SidebarService) {
     this.menuItems = sideBar.menu;
-    console.log(this.menuItems);
+    // console.log(this.menuItems);
     this.longitud = this.sideBar.menu[0].submenu.length;
-    console.log(this.longitud);
+    // console.log(this.longitud);
   }
  
 }
