@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs'; // MUY IMPORTANTE
+import { Observable, interval } from 'rxjs'; // MUY IMPORTANTE
+import { retry, take, map } from 'rxjs/operators'; // MUY IMPORTANTE
 
 @Component({
   selector: 'app-rxjs',
@@ -9,19 +10,48 @@ import { Observable } from 'rxjs'; // MUY IMPORTANTE
 export class RxjsComponent {
 
   constructor() {
-    
-    
-    const obs$ = new Observable( observer => {
+
+    // valor --> es el valor de la subscripción
+    // error --> es el error del observer
+    // () --> no recibe argumento y cuando el observable termina
+
+    // pipe nos ayuda a conectar una tuberia 
+    // this.retornaObservable().subscribe( 
+    //   valor => console.log('En la subscripción: ', valor) ,
+    //   error => console.log('Error en la subscripción: ', error),
+    //   () => console.log('Observable terminado ;)')
+    // );
+
+    this.retornaInterval()
+      .subscribe( console.log )
+
+
+  }
+
+  retornaInterval(): Observable<string> {
+    return interval(1000)
+            .pipe(
+              take(5),
+              map( valor => {
+                return 'Hola mundo '+ (valor+1);
+              })
+            )
+  }
+
+  retornaObservable(): Observable<number>{
+    let i = -1; // Para que no se inicie de nuevo
+
+    const obs$ = new Observable<number>( observer => {
       
-      let i = 0;
-
+      
       const intervalo = setInterval(() => {
-        console.log('tick');
-        // Emitiendo el valor:
         i++;
+        // Emitiendo el valor:
+        console.log(i);
         observer.next(i);
+        
 
-        if(i===8) {
+        if(i===4) {
           clearInterval(intervalo);
           // Notificar que ya se cancelo el observable
           observer.complete()
@@ -29,7 +59,7 @@ export class RxjsComponent {
 
         if(i===2) {
           // Disparar el error
-          clearInterval(intervalo);
+          // console.log('i=2 .... error')
           observer.error('la variable i llego al valor de 2')
         }
 
@@ -37,50 +67,7 @@ export class RxjsComponent {
 
     } );
 
-    // valor --> es el valor de la subscripción
-    // error --> es el error del observer
-    // () --> no recibe argumento y cuando el observable termina
-
-
-    obs$.subscribe( 
-      valor => { console.log('En la subscripción: ', valor) },
-      error => { console.log('Error en la subscripción: ', error)},
-      () => console.log('Observable terminado ;)')
-    );
-
-
-    // const observable$ = new Observable((observer) => {
-
-    //   console.log('hola')
-
-    //   let i = 0;
-
-    //   const intervalo = setInterval(() => {
-    //     i++;
-    //     observer.next(i);
-
-    //     if(i===15){
-    //       observer.error('Error el observer: i = 5');
-    //     }
-
-    //     if(i===10) {
-    //       observer.complete();
-    //     }
-
-    //   }, 1000);
-
-    // });
-
-    // observable$.subscribe(valor => {
-    //   console.log(valor);
-    // }, error => {
-    //   console.log('ERROR ENVIADO: ', error);
-    // }, () => {
-    //   console.log('Oberver compleado');
-    // });
-
-
-
+    return obs$;
   }
 
 }
