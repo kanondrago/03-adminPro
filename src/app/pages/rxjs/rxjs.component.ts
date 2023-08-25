@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Observable, interval } from 'rxjs'; // MUY IMPORTANTE
-import { retry, take, map } from 'rxjs/operators'; // MUY IMPORTANTE
+import { retry, take, map, filter } from 'rxjs/operators'; // MUY IMPORTANTE
 
 @Component({
   selector: 'app-rxjs',
@@ -29,11 +29,16 @@ export class RxjsComponent {
   }
 
   retornaInterval(): Observable<string> {
-    return interval(1000)
+
+    // RXJS son Operadores que van en cadena
+
+    return interval(100)
             .pipe(
-              take(5),
               map( valor => {
-                return 'Hola mundo '+ (valor+1);
+                return (valor+1);
+              }),
+              filter((valor:any) => {
+                return ( (valor % 2 ) === 0 ) ? true: false;
               })
             )
   }
