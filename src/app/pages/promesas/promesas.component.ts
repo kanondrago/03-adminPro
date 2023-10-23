@@ -7,29 +7,44 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PromesasComponent implements OnInit{
 
+  resultado:string='';
+
   constructor() {
 
   }
 
   ngOnInit(): void {
 
-    // this.getUsuariosPromesas()
 
-    // this.getUsuariosAsyncAwait()
 
-    // this.getUsuariosPromesasReturn()
-    //   .then((data:any) => {
-    //     data.forEach((elem:any) => {
-    //       console.log(elem.first_name);
+    // this.getUsuariosAsyncAwaitReturn()
+    //   .then(data => {
+    //     data.data.forEach((elem:any) => {
+    //       // console.log(elem.first_name);
     //     })
     //   })
 
-    this.getUsuariosAsyncAwaitReturn()
-      .then(data => {
-        data.data.forEach((elem:any) => {
-          console.log(elem.first_name);
+    this.obtenerUsuarios()
+      .then((usuarios:any) => {
+        usuarios.forEach((valor:any) => {
+          console.log(valor.first_name);
         })
       })
+  }
+
+  obtenerUsuarios() {
+    const url = 'https://reqres.in/api/users?page=2';
+
+    const promesa =  new Promise((resolve, reject) => {
+      fetch(url)
+      .then((data) => { return data.json() })
+      .then( (body) => {
+        const {data} = body;
+        return resolve(data);
+      })
+    });
+
+    return promesa;
   }
 
   getUsuariosPromesas() {
@@ -44,7 +59,7 @@ export class PromesasComponent implements OnInit{
       .then(datos => {
         const {data} = datos;
         data.forEach( (obj:any) => {
-          console.log(obj.first_name);
+          // console.log(obj.first_name);
         })
       })
     
@@ -64,7 +79,7 @@ export class PromesasComponent implements OnInit{
     // console.log(data);
     
     data.forEach((obj:any) => {
-      console.log(obj.first_name);
+      // console.log(obj.first_name);
     })
 
   }

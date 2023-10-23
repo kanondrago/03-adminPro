@@ -9,29 +9,80 @@ import { retry, take, map, filter } from 'rxjs/operators'; // MUY IMPORTANTE
 })
 export class RxjsComponent implements OnDestroy{
 
+  // public intervalSubs: Subscription;
+
   public intervalSubs: Subscription;
 
   constructor() {
 
-    // valor --> es el valor de la subscripción
-    // error --> es el error del observer
-    // () --> no recibe argumento y cuando el observable termina
+    // El observer es quien emite los valores
 
-    // pipe nos ayuda a conectar una tuberia 
-    // this.retornaObservable().subscribe( 
-    //   valor => console.log('En la subscripción: ', valor) ,
-    //   error => console.log('Error en la subscripción: ', error),
-    //   () => console.log('Observable terminado ;)')
-    // );
+    // this.returnObservable().pipe(retry(1)).subscribe({
+    //   next: (emision) => {
+    //     console.log(emision);
+    //   },
+    //   error: (error) => {
+    //     console.log(error);
+    //   },
+    // });
 
-    this.intervalSubs = this.retornaInterval()
-      .subscribe( console.log )
+    // this.intervalSubs = this.retornaInterval()
+    //   .subscribe( console.log )
+
+    this.intervalSubs = this.returnInterval().subscribe( console.log )
 
   }
 
   ngOnDestroy(): void {
     // throw new Error('Method not implemented.');
+    // this.intervalSubs.unsubscribe();
     this.intervalSubs.unsubscribe();
+  }
+
+  returnInterval(): Observable<number> {
+
+    // take -> Toma todos los valores que se desee
+    // map -> Transforma la informacion que recibe el observable y la muta 
+    // de la manera que se necesite
+
+    const interval$ = interval(125)
+    .pipe(
+        map( valor => {
+          return valor+1;
+        }),
+        filter(valor => {
+          return (valor%3===0)? true: false
+        }),
+      );
+
+    return interval$;
+
+  }
+
+  returnObservable():Observable<number> {
+    let i =-1;
+
+    const obs$ = new Observable<number>((observer) => {
+      
+      
+      const intervalo = setInterval(() => {
+        i++;
+
+        observer.next(i);
+
+        if (i===4) {
+          clearInterval(intervalo);
+          observer.complete();
+        }
+
+        if(i===2) {
+          observer.error('tenemos un error con i=2');
+        }
+
+      }, 350)
+    });
+
+    return obs$;
   }
 
   retornaInterval(): Observable<string> {
