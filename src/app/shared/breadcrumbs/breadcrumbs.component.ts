@@ -8,36 +8,34 @@ import { Subscription, filter, map } from 'rxjs';
   styles: [
   ]
 })
-export class BreadcrumbsComponent implements OnDestroy {
+export class BreadcrumbsComponent implements OnDestroy{
 
-public titulo = '';
-public tituloSubs$: Subscription;
-
+  public titulo: string = '';
+  public tituloSubs$: Subscription;
+  
   constructor( private router: Router ) {
 
+    this.tituloSubs$ = this.getArgumentosRuta()
+                          .subscribe(({titulo}) => {
+                              this.titulo = titulo;
+                              document.title = `AdminPro - ${titulo}`;
+                            })
 
-    this.tituloSubs$ = this.getArgumentoRuta().subscribe(({titulo}) => {
-                        this.titulo = titulo;
-                        document.title = `AdminPro - ${titulo}`
-                      })
-  }
+  } 
   ngOnDestroy(): void {
     this.tituloSubs$.unsubscribe();
   }
 
-    getArgumentoRuta() {
-      return this.router.events.pipe(
-        filter((event:any) => {
-          return event instanceof ActivationEnd;
-        }),
-        filter((value:ActivationEnd) => {
-          return value.snapshot.firstChild === null;
-        }),
-        map((value:ActivationEnd) => {
-          return value.snapshot.data
-        })
-      )
-    }
+  getArgumentosRuta(){
+    return this.router.events
+    .pipe(
+      filter((event:any) => event instanceof ActivationEnd),
+      filter((event:ActivationEnd) => event.snapshot.firstChild === null),
+      map((event) => event.snapshot.data)
+    )
+  }
+
+
 
 
 }
