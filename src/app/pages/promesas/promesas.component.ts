@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-promesas',
@@ -17,11 +18,20 @@ export class PromesasComponent implements OnInit{
 
   ngOnInit(): void {
 
-    this.getUsuarios()
-      .then((valor:any) => {
-        this.usuarios = valor
-      })
+    // this.getUsuarios()
+    //   .then((valor:any) => {
+    //     valor.forEach((item:any) => {
+    //       this.usuarios.push(item.first_name);
+    //     })
+    //   })
 
+    // Ahora con observables
+    this.getUsuariosPromesas()
+    .then((valor:any) => {
+      valor.forEach((item:any) => {
+        this.usuarios.push(item.first_name);
+      })
+    })
 
   }
 
@@ -40,6 +50,14 @@ export class PromesasComponent implements OnInit{
 
     return promesa
 
+  }
+
+
+  getUsuariosPromesas() {
+    const url  = 'https://reqres.in/api/users?page=2';
+    return fetch(url)
+            .then(resp => resp.json())
+            .then(body => body.data)
   }
 
 }
