@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+// Servicios
+import { UsuarioService } from 'src/app/services/usuario.service';
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -20,7 +23,9 @@ export class RegisterComponent {
     validators: this.passwordsIguales('password', 'password2')
   })
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private usuarioService: UsuarioService) {
 
   }
 
@@ -29,11 +34,12 @@ export class RegisterComponent {
     this.formSumitted = true;
     console.log('Formulario: ',this.registerForm);
 
-    if(this.registerForm.valid) {
-      console.log('Posteando Formulario');
-    } else {
-      console.log('El Formulario no es correcto')
+    if(this.registerForm.invalid) {
     }
+
+    console.log('Posteando Formulario');
+    this.usuarioService.crearUsuario(this.registerForm.value);
+
   }
 
   campoNoValido( campo: string ): boolean {
@@ -67,7 +73,7 @@ export class RegisterComponent {
         const pass2Control = formGroup.get(pass2Name);
 
         if(pass1Control?.value === pass2Control?.value) {
-          pass2Control?.setErrors({ noEsIgual: false });
+          pass2Control?.setErrors(null);
         } else {
           pass2Control?.setErrors({ noEsIgual: true })
         }
