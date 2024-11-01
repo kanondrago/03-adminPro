@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+// sweetAlert2
+import Swal from 'sweetalert2'; 
+
 // Servicios
 import { UsuarioService } from 'src/app/services/usuario.service';
 
@@ -43,7 +46,9 @@ export class RegisterComponent {
           console.log('Usuario creado')
           console.log('respuesta: ', resp);
         }, (err) => {
-          console.warn(err.error.msg);
+          // Si sucede un error
+          Swal.fire('Error', err.error.msg, 'error'); // El ultimo es un ícono.
+          
         } )
 
   }
