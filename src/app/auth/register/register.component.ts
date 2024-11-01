@@ -14,8 +14,8 @@ export class RegisterComponent {
   public formSumitted = false;
 
   public registerForm = this.fb.group({
-    nombre: [ 'Ronald', [ Validators.required, Validators.minLength(3) ]],
-    email: [ 'ronald@mail.com', [ Validators.required ,Validators.email ] ],
+    nombre: [ 'Henry', [ Validators.required, Validators.minLength(3) ]],
+    email: [ 'henry@mail.com', [ Validators.required ,Validators.email ] ],
     password: [ '12345', [ Validators.required ] ],
     password2: [ '12345', [ Validators.required ] ],
     terminos: [ true, [ Validators.required ] ],
@@ -37,8 +37,14 @@ export class RegisterComponent {
     if(this.registerForm.invalid) {
     }
 
-    console.log('Posteando Formulario');
-    this.usuarioService.crearUsuario(this.registerForm.value);
+    // console.log('Posteando Formulario');
+    this.usuarioService.crearUsuario(this.registerForm.value)
+        .subscribe( resp => {
+          console.log('Usuario creado')
+          console.log('respuesta: ', resp);
+        }, (err) => {
+          console.warn(err.error.msg);
+        } )
 
   }
 

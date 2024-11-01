@@ -2,6 +2,6 @@
 
 export const environment = {
     production: false,
-    base_url: 'http:localhost:3000/api', // creando la url base
+    base_url: 'http://localhost:3000/api', // creando la url base
 }
 
