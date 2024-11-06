@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-// sweetAlert2
+// sweetAlert2 ==> para las alertas dinámicas
 import Swal from 'sweetalert2'; 
 
 // Servicios
@@ -23,7 +23,7 @@ export class RegisterComponent {
     password2: [ '12345', [ Validators.required ] ],
     terminos: [ true, [ Validators.required ] ],
   }, {  // Validadores ==> existen valores asincronos tambien
-    validators: this.passwordsIguales('password', 'password2')
+    validators: this.passwordsIguales('password', 'password2') // referencia a una función
   })
 
   constructor(
@@ -38,7 +38,8 @@ export class RegisterComponent {
     console.log('Formulario: ',this.registerForm);
 
     if(this.registerForm.invalid) {
-    }
+      return; // con esto se evita que el código siga avanzando
+    } 
 
     // console.log('Posteando Formulario');
     this.usuarioService.crearUsuario(this.registerForm.value)
@@ -48,7 +49,6 @@ export class RegisterComponent {
         }, (err) => {
           // Si sucede un error
           Swal.fire('Error', err.error.msg, 'error'); // El ultimo es un ícono.
-          
         } )
 
   }
@@ -64,7 +64,7 @@ export class RegisterComponent {
 
   aceptaTerminos() {
     return !this.registerForm.get('terminos')?.value && this.formSumitted;
-   }
+  }
 
    contraseniasNoValidas(){
       const pass1 = this.registerForm.get('password')?.value;
@@ -79,7 +79,8 @@ export class RegisterComponent {
 
    // Necesitamos retornar una función
    passwordsIguales(pass1Name: string, pass2Name: string) {
-      return ( formGroup: FormGroup ) => {
+
+      return ( formGroup: FormGroup ) => { // El FormGroup es la referencia al formulario
         const pass1Control = formGroup.get(pass1Name);
         const pass2Control = formGroup.get(pass2Name);
 
