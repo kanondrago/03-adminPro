@@ -39,4 +39,13 @@ export class UsuarioService {
                );
   }
 
+  googleSignIn(googleToken: any) {
+    return this.http.post(`${base_url}/login/google`, {token: googleToken})
+                .pipe(
+                  tap( (resp:any) => {
+                    localStorage.setItem('token', resp.token);
+                  } )
+                );
+  }
+
 }

@@ -43,7 +43,7 @@ export class LoginComponent implements AfterViewInit {
   googleInit() {
     google.accounts.id.initialize({
       client_id: "846676967535-rt8qj61da6qjnh4lkk3nilhkqrle0pk7.apps.googleusercontent.com",
-      callback: this.handleCredentialResponse
+      callback: (response: any) => this.handleCredentialResponse(response) // Tener cuidado con los this de esto callbacks
     });
     google.accounts.id.renderButton(
       this.googleBtn.nativeElement,
@@ -52,7 +52,18 @@ export class LoginComponent implements AfterViewInit {
   }
 
   handleCredentialResponse(response: any) {
+
     console.log("Encoded JWT ID token: " + response.credential);
+    const googleToken = response.credential;
+
+    this.usuarioService.googleSignIn(googleToken)
+        .subscribe(resp => {
+          console.log('Respuesta Google: ',resp);
+          this.router.navigateByUrl('/');
+        }, err => {
+          console.log('Error en el Google Sign In');
+        })
+
   }
 
   login() {
