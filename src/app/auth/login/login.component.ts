@@ -53,22 +53,18 @@ export class LoginComponent implements AfterViewInit {
 
   handleCredentialResponse(response: any) {
 
-    console.log("Encoded JWT ID token: " + response.credential);
     const googleToken = response.credential;
 
     this.usuarioService.googleSignIn(googleToken)
         .subscribe(resp => {
-          console.log('Respuesta Google: ',resp);
           this.router.navigateByUrl('/');
         }, err => {
-          console.log('Error en el Google Sign In');
+          console.log('Error en el Google Sign In', err);
         })
 
   }
 
   login() {
-    console.log('Formulario: ', this.loginForm.value);
-
     this.usuarioService.login(this.loginForm.value as LoginForm)
       .subscribe( resp => {
         if(this.loginForm.get('remember')?.value){

@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 
 // Servicios
 import { UsuarioService } from 'src/app/services/usuario.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -28,7 +29,8 @@ export class RegisterComponent {
 
   constructor(
     private fb: FormBuilder,
-    private usuarioService: UsuarioService) {
+    private usuarioService: UsuarioService,
+    private router: Router) {
 
   }
 
@@ -46,6 +48,7 @@ export class RegisterComponent {
         .subscribe( resp => {
           console.log('Usuario creado')
           console.log('respuesta: ', resp);
+          this.router.navigateByUrl('/');
         }, (err) => {
           // Si sucede un error
           Swal.fire('Error', err.error.msg, 'error'); // El ultimo es un ícono.
