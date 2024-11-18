@@ -2,7 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 // rxjs
-import { tap } from 'rxjs/operators'
+import { tap, map, catchError } from 'rxjs/operators'
+import { Observable, of } from 'rxjs';
 
 // Interfaces
 import { RegisterForm } from '../interfaces/register-form.interface';
@@ -47,5 +48,23 @@ export class UsuarioService {
                   } )
                 );
   }
+
+  tokenValidation(): Observable<boolean> {
+    const token = localStorage.getItem('token') || '';
+    
+    return this.http.get(`${base_url}/login/renew`, {
+      headers: { 'x-token': token }
+    }).pipe(
+      tap((resp: any) => { // Inspecciona los datos
+        localStorage.setItem('token', resp.token)
+      }),
+      map( resp => {
+        return true
+      } ),
+      catchError( error => {
+        return of(false) // el operador of convierte el valor en un observable
+      })
+    );
+  };
 
 }

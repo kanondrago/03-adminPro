@@ -81,4 +81,5 @@ export class LoginComponent implements AfterViewInit {
         Swal.fire('Error', err.error.msg, 'error');
       })
   }
+
 }
