@@ -24,44 +24,44 @@ export class UsuarioService {
 
   crearUsuario(formData: RegisterForm) {
     return this.http.post(`${base_url}/usuarios`, formData)
-               .pipe(
-                tap( (resp: any) => {
-                  localStorage.setItem('token', resp.token);
-                })
-               );
+      .pipe(
+        tap((resp: any) => {
+          localStorage.setItem('token', resp.token);
+        })
+      );
   }
 
   login(formData: LoginForm) {
     return this.http.post(`${base_url}/login`, formData)
-               .pipe(
-                tap( (resp:any) => {
-                  localStorage.setItem('token', resp.token);
-                } )
-               );
+      .pipe(
+        tap((resp: any) => {
+          localStorage.setItem('token', resp.token);
+        })
+      );
   }
 
   googleSignIn(googleToken: any) {
-    return this.http.post(`${base_url}/login/google`, {token: googleToken})
-                .pipe(
-                  tap( (resp:any) => {
-                    localStorage.setItem('token', resp.token);
-                  } )
-                );
+    return this.http.post(`${base_url}/login/google`, { token: googleToken })
+      .pipe(
+        tap((resp: any) => {
+          localStorage.setItem('token', resp.token);
+        })
+      );
   }
 
   tokenValidation(): Observable<boolean> {
     const token = localStorage.getItem('token') || '';
-    
+
     return this.http.get(`${base_url}/login/renew`, {
       headers: { 'x-token': token }
     }).pipe(
       tap((resp: any) => { // Inspecciona los datos
         localStorage.setItem('token', resp.token)
       }),
-      map( resp => {
+      map(resp => {
         return true
-      } ),
-      catchError( error => {
+      }),
+      catchError(error => {
         return of(false) // el operador of convierte el valor en un observable
       })
     );

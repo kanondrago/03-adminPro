@@ -1,7 +1,7 @@
 import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import Swal from 'sweetalert2'; 
+import Swal from 'sweetalert2';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { LoginForm } from '../../interfaces/login-form.interface';
 
@@ -17,15 +17,15 @@ export class LoginComponent implements AfterViewInit {
   @ViewChild('googleBtn') googleBtn!: ElementRef;
 
   public loginForm = this.fb.group({
-    email: [ localStorage.getItem('email') || '', [ Validators.required, Validators.email ] ],
-    password: [ '', [ Validators.required ] ],
-    remember: [ false ],
+    email: [localStorage.getItem('email') || '', [Validators.required, Validators.email]],
+    password: ['', [Validators.required]],
+    remember: [false],
   })
 
-  constructor( 
+  constructor(
     private router: Router,
     private fb: FormBuilder,
-    private usuarioService: UsuarioService) {}
+    private usuarioService: UsuarioService) { }
 
   ngAfterViewInit(): void {
     this.waitForGoogleAPI();
@@ -56,18 +56,18 @@ export class LoginComponent implements AfterViewInit {
     const googleToken = response.credential;
 
     this.usuarioService.googleSignIn(googleToken)
-        .subscribe(resp => {
-          this.router.navigateByUrl('/');
-        }, err => {
-          console.log('Error en el Google Sign In', err);
-        })
+      .subscribe(resp => {
+        this.router.navigateByUrl('/');
+      }, err => {
+        console.log('Error en el Google Sign In', err);
+      })
 
   }
 
   login() {
     this.usuarioService.login(this.loginForm.value as LoginForm)
-      .subscribe( resp => {
-        if(this.loginForm.get('remember')?.value){
+      .subscribe(resp => {
+        if (this.loginForm.get('remember')?.value) {
           localStorage.setItem('email', this.loginForm.get('email')?.value as string);
         } else {
           localStorage.removeItem('email');
