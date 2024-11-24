@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 
 // rxjs
 import { tap, map, catchError } from 'rxjs/operators'
@@ -11,6 +11,9 @@ import { LoginForm } from '../interfaces/login-form.interface';
 
 // Environment
 import { environment } from 'src/environments/environment'
+import { Router } from '@angular/router';
+
+declare const google: any;
 
 // http://localhost:3000/api
 const base_url = environment.base_url
@@ -20,7 +23,10 @@ const base_url = environment.base_url
 })
 export class UsuarioService {
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private ngZone: NgZone) { }
 
   crearUsuario(formData: RegisterForm) {
     return this.http.post(`${base_url}/usuarios`, formData)
@@ -38,6 +44,18 @@ export class UsuarioService {
           localStorage.setItem('token', resp.token);
         })
       );
+  }
+
+  logout() {
+    localStorage.removeItem('token');
+    
+    // Necesitamos el correo electrónico del usuario logeado
+    google.accounts.id.revoke('ronaldchavezr@gmail.com', () => {
+      this.ngZone.run( () => {
+        this.router.navigateByUrl('/login'); 
+      })
+    })
+
   }
 
   googleSignIn(googleToken: any) {
