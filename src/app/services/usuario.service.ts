@@ -9,9 +9,12 @@ import { Observable, of } from 'rxjs';
 import { RegisterForm } from '../interfaces/register-form.interface';
 import { LoginForm } from '../interfaces/login-form.interface';
 
-// Environment
+// Environments
 import { environment } from 'src/environments/environment'
 import { Router } from '@angular/router';
+
+// Models
+import { Usuario } from '../models/usuario.model';
 
 declare const google: any;
 
@@ -22,6 +25,8 @@ const base_url = environment.base_url
   providedIn: 'root'
 })
 export class UsuarioService {
+
+  public usuario: Usuario | undefined;
 
   constructor(
     private http: HttpClient,
@@ -74,6 +79,19 @@ export class UsuarioService {
       headers: { 'x-token': token }
     }).pipe(
       tap((resp: any) => { // Inspecciona los datos
+
+        console.log('Resp: ', resp);
+
+        // Creando un usuario que es consultado a la base de datos.
+        const { nombre, email, img, google, role, uid } = resp.usuario;
+        this.usuario = new Usuario(nombre, email, '', img, google, role, uid);
+
+        // const url = this.usuario.imageUrl;
+
+        console.log('Este es el verdadero usuario: ',this.usuario);
+        // console.log('getter imageUrl: ',url);
+
+        // set del token en el localStorage
         localStorage.setItem('token', resp.token)
       }),
       map(resp => {

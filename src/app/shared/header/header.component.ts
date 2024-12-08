@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 // Servicios
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -11,8 +12,10 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 })
 export class HeaderComponent {
 
-  constructor(private usuarioService: UsuarioService) {
+  public imageUrl = '';
 
+  constructor(private usuarioService: UsuarioService) {
+    this.imageUrl = this.usuarioService.usuario!.imageUrl;
   }
 
   logout() {
