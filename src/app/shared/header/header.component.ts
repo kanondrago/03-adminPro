@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 // Servicios
 import { UsuarioService } from 'src/app/services/usuario.service';
 
+// Models
+import { Usuario } from 'src/app/models/usuario.model';
 
 @Component({
   selector: 'app-header',
@@ -12,10 +14,10 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 })
 export class HeaderComponent {
 
-  public imageUrl = '';
+  public usuario: Usuario;
 
   constructor(private usuarioService: UsuarioService) {
-    this.imageUrl = this.usuarioService.usuario!.imageUrl;
+    this.usuario = this.usuarioService.usuario!;
   }
 
   logout() {

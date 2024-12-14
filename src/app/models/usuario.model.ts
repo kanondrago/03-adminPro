@@ -16,8 +16,6 @@ export class Usuario {
 
     get imageUrl() {
 
-        console.log('Imagen >>>  ', this.img);
-
         if(this.img?.includes('https')) {
             return this.img;
         }
