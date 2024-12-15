@@ -1,0 +1,9 @@
+
+.cursor-link {
+  cursor: pointer;
+}
+
+a.cursor-link:hover {
+    color: rgb(235, 59, 32);
+    font-weight: bold;
+  }

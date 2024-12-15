@@ -16,6 +16,7 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
 import { PromesasComponent } from './promesas/promesas.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
 import { PagesComponent } from './pages.component';
+import { PerfilComponent } from './perfil/perfil.component';
 
 
 
@@ -28,6 +29,7 @@ import { PagesComponent } from './pages.component';
     PromesasComponent,
     RxjsComponent,
     PagesComponent,
+    PerfilComponent,
   ],
   exports: [
     DashboardComponent,
@@ -37,6 +39,7 @@ import { PagesComponent } from './pages.component';
     PromesasComponent,
     RxjsComponent,
     PagesComponent,
+    PerfilComponent,
   ],
   imports: [
     CommonModule,

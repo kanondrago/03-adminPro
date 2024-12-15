@@ -10,7 +10,8 @@ import { Usuario } from 'src/app/models/usuario.model';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
-  styles: [
+  styleUrls: [
+    './sidebar.component.css'
   ]
 })
 export class SidebarComponent {
@@ -29,6 +30,10 @@ export class SidebarComponent {
     // console.log(this.longitud);
 
     this.usuario = usuarioService.usuario!;
+  }
+
+  logout() {
+    this.usuarioService.logout()
   }
  
 }
