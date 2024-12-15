@@ -42,29 +42,11 @@ export class LoginComponent implements AfterViewInit {
   }
 
   googleInit() {
-    google.accounts.id.initialize({
-      client_id: "846676967535-rt8qj61da6qjnh4lkk3nilhkqrle0pk7.apps.googleusercontent.com",
-      callback: (response: any) => this.handleCredentialResponse(response) // Tener cuidado con los this de esto callbacks
-    });
+    this.usuarioService.googleInit()
     google.accounts.id.renderButton(
       this.googleBtn.nativeElement,
       { theme: "outline", size: "large" }  // Personalización
     );
-  }
-
-  handleCredentialResponse(response: any) {
-
-    const googleToken = response.credential;
-
-    this.usuarioService.googleSignIn(googleToken)
-      .subscribe(resp => {
-        this.ngZone.run(() => {
-          this.router.navigateByUrl('/');
-        })
-      }, err => {
-        console.log('Error en el Google Sign In', err);
-      })
-
   }
 
   login() {

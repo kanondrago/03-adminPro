@@ -54,12 +54,41 @@ export class UsuarioService {
   logout() {
     localStorage.removeItem('token');
     
-    // Necesitamos el correo electrónico del usuario logeado
-    google.accounts.id.revoke('ronaldchavezr@gmail.com', () => {
-      this.ngZone.run( () => {
-        this.router.navigateByUrl('/login'); 
+    // console.log('this.usuario?.google : ', this.usuario?.google);
+
+    if(this.usuario?.google) {
+      // Inicializamos el usuario de google para cerrar sesión
+      this.googleInit();
+      // Necesitamos el correo electrónico del usuario logeado
+      google.accounts.id.revoke(this.usuario!.email, () => {
+        this.ngZone.run( () => {
+          this.router.navigateByUrl('/login'); 
+        })
       })
-    })
+    } else {
+      this.router.navigateByUrl('/login'); 
+    }
+  }
+
+  googleInit() {
+    google.accounts.id.initialize({
+      client_id: "846676967535-rt8qj61da6qjnh4lkk3nilhkqrle0pk7.apps.googleusercontent.com",
+      callback: (response: any) => this.handleCredentialResponse(response) // Tener cuidado con los this de esto callbacks
+    });
+  }
+
+  handleCredentialResponse(response: any) {
+
+    const googleToken = response.credential;
+
+    this.googleSignIn(googleToken)
+      .subscribe(resp => {
+        this.ngZone.run(() => {
+          this.router.navigateByUrl('/');
+        })
+      }, err => {
+        console.log('Error en el Google Sign In', err);
+      })
 
   }
 
@@ -78,7 +107,7 @@ export class UsuarioService {
     return this.http.get(`${base_url}/login/renew`, {
       headers: { 'x-token': token }
     }).pipe(
-      tap((resp: any) => { // Inspecciona los datos
+      map((resp: any) => { // Inspecciona los datos
 
         console.log('Resp: ', resp);
 
@@ -92,10 +121,9 @@ export class UsuarioService {
         // console.log('getter imageUrl: ',url);
 
         // set del token en el localStorage
-        localStorage.setItem('token', resp.token)
-      }),
-      map(resp => {
-        return true
+        localStorage.setItem('token', resp.token);
+
+        return true;
       }),
       catchError(error => {
         return of(false) // el operador of convierte el valor en un observable
