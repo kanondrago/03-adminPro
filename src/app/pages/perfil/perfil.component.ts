@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+// Servicios
+import { FileUploadService } from 'src/app/services/file-upload.service';
+import { UsuarioService } from 'src/app/services/usuario.service';
+
 // Modelo
 import { Usuario } from 'src/app/models/usuario.model';
-
-// Servicios
-import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
   selector: 'app-perfil',
@@ -14,15 +15,16 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 })
 export class PerfilComponent implements OnInit {
 
-  public usuario?: Usuario;
-
+  public usuario!: Usuario;
   public perfilForm!: FormGroup;
+  public imagenSubir!: File;
   
   constructor(
     private fb: FormBuilder,
-    private usuarioService: UsuarioService) {
+    private usuarioService: UsuarioService,
+    private fileUploadService: FileUploadService) {
 
-      this.usuario = usuarioService.usuario;
+      this.usuario = usuarioService.usuario!;
 
   }
 
@@ -49,6 +51,18 @@ export class PerfilComponent implements OnInit {
          
       } )
 
+  }
+
+  cambiarImagen(event: any) {
+    const file:File = event.target.files[0];
+    this.imagenSubir = file;
+  }
+
+  subirImagen() {
+    this.fileUploadService.actualizarFoto(this.imagenSubir!, 'usuarios', this.usuario.uid!)
+      .then(resp => {
+        console.log('RESPUESTA::::',resp)
+      })
   }
 
 }
