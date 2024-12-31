@@ -22,7 +22,9 @@ export class FileUploadService {
 
       // construcción de la url necesaria
       const url = `${base_url}/upload/${tipo}/${id}`
-      const formData = new FormData() // propio de javascript
+
+      // propio de javascript --> para preparar data, para enviar información al backend
+      const formData = new FormData() 
 
       // Data que se enviará
       formData.append('imagen', archivo);
@@ -36,7 +38,10 @@ export class FileUploadService {
         body: formData,
       })
 
-      console.log('resp: ', resp);
+      // desencapsular la resp
+      const data = await resp.json()
+
+      console.log('data: ', data);
 
       return 'nombre de la imagen';
       
