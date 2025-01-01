@@ -8,6 +8,8 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 // Modelo
 import { Usuario } from 'src/app/models/usuario.model';
 
+import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-perfil',
   templateUrl: './perfil.component.html',
@@ -50,7 +52,11 @@ export class PerfilComponent implements OnInit {
          this.usuario!.nombre = nombre
          this.usuario!.email = email
          
-      } )
+         Swal.fire('Guardado', 'Cambios fueron guardados', 'success');
+      }, (err) => {
+        Swal.fire('Error', err.error.msg, 'error');
+        console.log(err);
+      })
 
   }
 
@@ -78,6 +84,9 @@ export class PerfilComponent implements OnInit {
       .actualizarFoto(this.imagenSubir!, 'usuarios', this.usuario.uid!)
       .then(img => {
         this.usuario.img = img;
+        Swal.fire('Guardado', 'Cambios fueron guardados', 'success');
+      }).catch((err) => {
+        Swal.fire('Error', 'Ocurrio un error al subir la imagen', 'error');
       })
   }
 
