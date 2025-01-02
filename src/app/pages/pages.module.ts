@@ -17,6 +17,10 @@ import { PromesasComponent } from './promesas/promesas.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
 import { PagesComponent } from './pages.component';
 import { PerfilComponent } from './perfil/perfil.component';
+// Componentes de Mantenimientos
+import { UsuariosComponent } from './mantenimientos/usuarios/usuarios.component';
+import { MedicosComponent } from './mantenimientos/medicos/medicos.component';
+import { HospitalesComponent } from './mantenimientos/hospitales/hospitales.component';
 
 
 
@@ -30,6 +34,9 @@ import { PerfilComponent } from './perfil/perfil.component';
     RxjsComponent,
     PagesComponent,
     PerfilComponent,
+    UsuariosComponent,
+    MedicosComponent,
+    HospitalesComponent,
   ],
   exports: [
     DashboardComponent,
@@ -40,6 +47,9 @@ import { PerfilComponent } from './perfil/perfil.component';
     RxjsComponent,
     PagesComponent,
     PerfilComponent,
+    UsuariosComponent,
+    MedicosComponent,
+    HospitalesComponent,
   ],
   imports: [
     CommonModule,
