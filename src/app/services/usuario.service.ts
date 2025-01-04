@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, NgZone } from '@angular/core';
 
 // rxjs
-import { tap, map, catchError } from 'rxjs/operators'
+import { tap, map, catchError, delay } from 'rxjs/operators'
 import { Observable, of } from 'rxjs';
 
 // Interfaces
@@ -160,9 +160,23 @@ get headers() {
     );
   };
 
-  cargarUsuarios(desde: number = 0): Observable<CargarUsuarios> {
+  cargarUsuarios(desde: number = 0) {
     const url = `${base_url}/usuarios?desde=${desde}`;
-    return this.http.get<CargarUsuarios>(url, this.headers);
+    return this.http.get<CargarUsuarios>(url, this.headers)
+      .pipe(
+        // delay(5000), // Solo para verificar si el loading estaba funcionando
+        map( resp => {
+          console.log('***resp: ', resp);
+          const usuarios = resp.usuarios.map( user => {
+            return new Usuario(user.nombre, user.email, '', user.img, user.google, user.role, user.uid);
+          })
+
+          return {
+            total: resp.total,
+            usuarios: usuarios
+          }
+        })
+      )
   }
 
 }

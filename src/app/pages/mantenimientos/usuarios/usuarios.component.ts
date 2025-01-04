@@ -19,24 +19,28 @@ export class UsuariosComponent implements OnInit{
   public totalUsuarios: number = 0;
   public usuarios: Usuario[] = [];
   public desde: number = 0;
+  public cargando: boolean = true;
 
   constructor(private usuarioService: UsuarioService) {
 
   }
 
   ngOnInit(): void {
+    this.cargarUsuarios();
+  }
+
+  cargarUsuarios() {
+    this.cargando = true;
     this.usuarioService.cargarUsuarios(this.desde)
-      .subscribe( ({total, usuarios}: CargarUsuarios) => {
-        // Usando desestruturación para estraer los valores
-        this.totalUsuarios = total;
-        this.usuarios = usuarios;
-        
-        console.log('this.totalUsuarios: ', this.totalUsuarios);  
-        console.log('this.usuarios: ', this.usuarios);  
-        
-      }, (err) => {
-        console.log(err);
-      })
+    .subscribe( ({total, usuarios}: CargarUsuarios) => {
+      // Usando desestruturación para estraer los valores
+      this.totalUsuarios = total;
+      this.usuarios = usuarios;
+      this.cargando = false;
+      
+    }, (err) => {
+      console.log(err);
+    })
   }
 
 
@@ -44,9 +48,11 @@ export class UsuariosComponent implements OnInit{
     this.desde += valor;
     if(this.desde < 0 ) {
       this.desde = 0;
-    } else if(this.desde > this.totalUsuarios){
+    } else if(this.desde >= this.totalUsuarios){
       this.desde -= valor;  
     }
+
+    this.cargarUsuarios();
   }
 
 
