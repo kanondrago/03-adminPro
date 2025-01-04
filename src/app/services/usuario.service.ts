@@ -42,6 +42,14 @@ get uid(): string {
   return this.usuario?.uid || '';
 }
 
+get headers() {
+  return {
+    headers: {
+      'x-token': this.token,
+    }
+  }
+}
+
   crearUsuario(formData: RegisterForm) {
     return this.http.post(`${base_url}/usuarios`, formData)
       .pipe(
@@ -150,5 +158,10 @@ get uid(): string {
       })
     );
   };
+
+  cargarUsuarios(desde: number = 0) {
+    const url = `${base_url}/usuarios?desde=${desde}`;
+    return this.http.get(url, this.headers);
+  }
 
 }
