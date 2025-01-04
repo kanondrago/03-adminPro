@@ -18,13 +18,14 @@ export class UsuariosComponent implements OnInit{
 
   public totalUsuarios: number = 0;
   public usuarios: Usuario[] = [];
+  public desde: number = 0;
 
   constructor(private usuarioService: UsuarioService) {
 
   }
 
   ngOnInit(): void {
-    this.usuarioService.cargarUsuarios(15)
+    this.usuarioService.cargarUsuarios(this.desde)
       .subscribe( ({total, usuarios}: CargarUsuarios) => {
         // Usando desestruturación para estraer los valores
         this.totalUsuarios = total;
@@ -37,5 +38,16 @@ export class UsuariosComponent implements OnInit{
         console.log(err);
       })
   }
+
+
+  cambiarPagina(valor: number) {
+    this.desde += valor;
+    if(this.desde < 0 ) {
+      this.desde = 0;
+    } else if(this.desde > this.totalUsuarios){
+      this.desde -= valor;  
+    }
+  }
+
 
 }
