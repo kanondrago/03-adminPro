@@ -8,6 +8,7 @@ import { Observable, of } from 'rxjs';
 // Interfaces
 import { RegisterForm } from '../interfaces/register-form.interface';
 import { LoginForm } from '../interfaces/login-form.interface';
+import { CargarUsuarios } from '../interfaces/cargar-usuarios.interface';
 
 // Environments
 import { environment } from 'src/environments/environment'
@@ -159,9 +160,9 @@ get headers() {
     );
   };
 
-  cargarUsuarios(desde: number = 0) {
+  cargarUsuarios(desde: number = 0): Observable<CargarUsuarios> {
     const url = `${base_url}/usuarios?desde=${desde}`;
-    return this.http.get(url, this.headers);
+    return this.http.get<CargarUsuarios>(url, this.headers);
   }
 
 }
