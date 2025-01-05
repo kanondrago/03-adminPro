@@ -3,3 +3,14 @@
     background-color: #F3F6FA;
     border: none;
 }
+
+.paginacion {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.pointer {
+    cursor: pointer;
+}

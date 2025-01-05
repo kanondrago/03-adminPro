@@ -20,6 +20,7 @@ export class UsuariosComponent implements OnInit{
   public usuarios: Usuario[] = [];
   public desde: number = 0;
   public cargando: boolean = true;
+  public pagina: number = 1;
 
   constructor(private usuarioService: UsuarioService) {
 
@@ -52,8 +53,24 @@ export class UsuariosComponent implements OnInit{
       this.desde -= valor;  
     }
 
+    // Me lleva a la página actual
+    this.pagina = (this.desde+5)/5
+
+    // carga los usuarios
     this.cargarUsuarios();
   }
 
+  eliminarUsuario(uid: string | undefined) {
+    // console.log('El id es: ', uid);
+
+    this.usuarioService.eliminarUsuario(uid)
+      .subscribe( resp => {
+        console.log(resp);
+        this.usuarios = this.usuarios.filter(usuario => usuario.uid !== uid);
+      }, (err) => {
+        console.log(err);
+      })
+
+  }
 
 }
