@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 // servicios
 import { UsuarioService } from 'src/app/services/usuario.service';
+import { BusquedasService } from 'src/app/services/busquedas.service';
 
 // interfaces
 import { CargarUsuarios } from 'src/app/interfaces/cargar-usuarios.interface';
@@ -22,7 +23,9 @@ export class UsuariosComponent implements OnInit{
   public cargando: boolean = true;
   public pagina: number = 1;
 
-  constructor(private usuarioService: UsuarioService) {
+  constructor(
+      private usuarioService: UsuarioService,
+      private busquedasService: BusquedasService) {
 
   }
 
@@ -71,6 +74,15 @@ export class UsuariosComponent implements OnInit{
         console.log(err);
       })
 
+  }
+
+  buscar(termino: any) {
+
+    // console.log(termino);
+    this.busquedasService.buscar('usuarios', termino)
+      .subscribe((resultados) => {
+        this.usuarios = resultados;
+      })
   }
 
 }
