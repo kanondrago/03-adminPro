@@ -7,7 +7,7 @@
                 <input 
                     type="text" 
                     class="form-control"
-                    placeholder="Buscar un usuario ..."
+                    placeholder="Busqueda por nombre ..."
                     (keyup)="buscar(txtTermino.value)"
                     #txtTermino    
                 >                                        
@@ -73,12 +73,14 @@
                 </div>
 
                 <div class="paginacion">
-                    <div>
+                    <div *ngIf="txtTermino.value.length===0">
                         <button class="btn btn-secondary" (click)="cambiarPagina(-5)">Anteriores</button>
                         &nbsp;
                         <button class="btn btn-secondary" (click)="cambiarPagina(5)">Siguientes</button>
                     </div>
-                    <p><strong>Página {{pagina}}</strong></p>
+                    <div *ngIf="txtTermino.value.length===0">
+                        <p><strong>Página {{pagina}}</strong></p>
+                    </div>
                 </div>
 
             </div>

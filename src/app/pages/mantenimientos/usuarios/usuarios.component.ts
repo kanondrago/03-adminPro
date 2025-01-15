@@ -19,6 +19,7 @@ export class UsuariosComponent implements OnInit{
 
   public totalUsuarios: number = 0;
   public usuarios: Usuario[] = [];
+  public usuariosTemp: Usuario[] = [];
   public desde: number = 0;
   public cargando: boolean = true;
   public pagina: number = 1;
@@ -40,6 +41,7 @@ export class UsuariosComponent implements OnInit{
       // Usando desestruturación para estraer los valores
       this.totalUsuarios = total;
       this.usuarios = usuarios;
+      this.usuariosTemp = usuarios; // Almacenando de manera temporal
       this.cargando = false;
       
     }, (err) => {
@@ -76,11 +78,15 @@ export class UsuariosComponent implements OnInit{
 
   }
 
-  buscar(termino: any) {
+  buscar(termino: any): any {
+
+    if(termino.length === 0) {
+      return this.usuarios = this.usuariosTemp; // se retorna el usuario temporal
+    }
 
     // console.log(termino);
     this.busquedasService.buscar('usuarios', termino)
-      .subscribe((resultados) => {
+      .subscribe((resultados: any) => {
         this.usuarios = resultados;
       })
   }
