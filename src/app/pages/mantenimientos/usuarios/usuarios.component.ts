@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import Swal from 'sweetalert2';
 
 // servicios
 import { UsuarioService } from 'src/app/services/usuario.service';
@@ -65,20 +66,40 @@ export class UsuariosComponent implements OnInit{
     this.cargarUsuarios();
   }
 
-  eliminarUsuario(uid: string | undefined) {
-    // console.log('El id es: ', uid);
+  eliminarUsuario(usuario: Usuario) {
 
-    this.usuarioService.eliminarUsuario(uid)
-      .subscribe( resp => {
-        console.log(resp);
-        this.usuarios = this.usuarios.filter(usuario => usuario.uid !== uid);
-      }, (err) => {
-        console.log(err);
-      })
-
+    if(usuario.uid === this.usuarioService.uid){
+      Swal.fire('No puede borrar este usuario', 'error');
+      return 
+    } 
+    
+    // SweetAlert
+    Swal.fire({
+      title: "¿ Borrar usuario ?",
+      text: `Esta a punto de borrar a ${usuario.nombre}`,
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Aceptar",
+      cancelButtonText: "Cancelar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.usuarioService.eliminarUsuario(usuario.uid)
+          .subscribe(resp => {
+            console.log(resp);
+            Swal.fire({
+              title: "Deleted!",
+              text: `${resp.msg}`,
+              icon: "success"
+            });
+            this.cargarUsuarios();
+        })
+      }
+    });
   }
 
-  buscar(termino: any): any {
+  buscar(termino: string): any {
 
     if(termino.length === 0) {
       return this.usuarios = this.usuariosTemp; // se retorna el usuario temporal

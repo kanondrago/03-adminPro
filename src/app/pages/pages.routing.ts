@@ -38,7 +38,7 @@ const routes: Routes = [
 
             // mantenimientos
             { path: 'usuarios', component: UsuariosComponent, data: { titulo: 'Usuarios de aplicación' } },
-            { path: 'medicos', component: MedicosComponent, data: { titulo: 'Medicos de aplicación' } },
+            { path: 'medicos', component: MedicosComponent, data: { titulo: 'Médicos de aplicación' } },
             { path: 'hospitales', component: HospitalesComponent, data: { titulo: 'Hospitales de aplicación' } },
             // { path: '', redirectTo: '/dashboard', pathMatch:'full' },
         ]

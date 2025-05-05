@@ -181,8 +181,9 @@ get headers() {
 
   eliminarUsuario(id: string | undefined) {
     const url = `${base_url}/usuarios/${id}`
-    return this.http.delete(url, this.headers);
+    return this.http.delete<any>(url, this.headers);
   }
+  
 
 
 }
