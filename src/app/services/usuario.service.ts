@@ -64,12 +64,10 @@ get headers() {
 
     data = {
       ...data,
-      role: this.usuario!.role
-    };
+      role: this.usuario?.role,
+    }
 
-    return this.http.put(`${base_url}/usuarios/${this.uid}`, data, {
-      headers: { 'x-token': this.token }
-    });
+    return this.http.put(`${base_url}/usuarios/${this.uid}`, data, this.headers);
   }
 
   login(formData: LoginForm) {
@@ -183,7 +181,10 @@ get headers() {
     const url = `${base_url}/usuarios/${id}`
     return this.http.delete<any>(url, this.headers);
   }
-  
 
+  actualizarUsuario(usuario: Usuario) {
+
+    return this.http.put(`${base_url}/usuarios/${usuario.uid}`, usuario, this.headers);
+  }
 
 }

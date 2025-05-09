@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 // servicios
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { BusquedasService } from 'src/app/services/busquedas.service';
+import { ModalImagenService } from 'src/app/services/modal-imagen.service';
 
 // interfaces
 import { CargarUsuarios } from 'src/app/interfaces/cargar-usuarios.interface';
@@ -27,7 +28,8 @@ export class UsuariosComponent implements OnInit{
 
   constructor(
       private usuarioService: UsuarioService,
-      private busquedasService: BusquedasService) {
+      private busquedasService: BusquedasService,
+      public modalImagenService: ModalImagenService) {
 
   }
 
@@ -110,6 +112,18 @@ export class UsuariosComponent implements OnInit{
       .subscribe((resultados: any) => {
         this.usuarios = resultados;
       })
+  }
+
+  cambiarRole(usuario: Usuario){
+
+    this.usuarioService.actualizarUsuario(usuario)
+      .subscribe((resp: any) => {
+        console.log(resp);
+      })
+  }
+
+  abrirModal() {
+    this.modalImagenService.abrirModal();
   }
 
 }
