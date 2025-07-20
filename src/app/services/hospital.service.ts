@@ -37,4 +37,12 @@ export class HospitalService {
               )
   }
 
+  crearHospital(nombre: string) {
+    const url = `${base_url}/hospitales`;
+    return this.http.post<any>(url, { nombre }, this.headers);
+  }
+
+
+
+
 }
