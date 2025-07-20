@@ -39,9 +39,24 @@ export class HospitalService {
 
   crearHospital(nombre: string) {
     const url = `${base_url}/hospitales`;
-    return this.http.post<any>(url, { nombre }, this.headers);
+    return this.http.post<any>(url, { nombre }, this.headers)
+                  .pipe(
+                    map((resp: any) => resp.hospital)
+                  );
   }
 
+  actualizarHospital(_id: string, nombre: string) {
+    const url = `${base_url}/hospitales/${_id}`;
+    return this.http.put<any>(url, { nombre }, this.headers)
+                  .pipe(
+                    map((resp: any) => resp.hospital)
+                  );
+  }
+
+  borrarHospital(_id: string) {
+    const url = `${base_url}/hospitales/${_id}`;
+    return this.http.delete(url, this.headers);
+  }
 
 
 
