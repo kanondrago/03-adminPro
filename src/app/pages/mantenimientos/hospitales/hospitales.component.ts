@@ -4,6 +4,7 @@ import { Hospital } from 'src/app/models/hospital.model';
 import { HospitalService } from 'src/app/services/hospital.service';
 import { ModalImagenService } from 'src/app/services/modal-imagen.service';
 import { delay, Subscription } from 'rxjs';
+import { BusquedasService } from 'src/app/services/busquedas.service';
 
 @Component({
   selector: 'app-hospitales',
@@ -18,7 +19,8 @@ export class HospitalesComponent implements OnInit{
 
   constructor(
     private hospitalService: HospitalService,
-    private modalImagenService: ModalImagenService) {
+    private modalImagenService: ModalImagenService,
+    private busquedasService: BusquedasService) {
 
   }
 
@@ -81,6 +83,18 @@ export class HospitalesComponent implements OnInit{
 
   }
 
+  buscar(termino: string): any {
+
+    if(termino.length === 0) {
+      return this.cargarHospitales();
+    }
+
+    // console.log(termino);
+    this.busquedasService.buscar('hospitales', termino)
+      .subscribe((resultados: any) => {
+        this.hospitales = resultados;
+      })
+  }
 
   async abrirSweetAlert() {
 
